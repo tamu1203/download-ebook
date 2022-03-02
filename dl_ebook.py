@@ -42,19 +42,16 @@ def screenshot():
     for page in range(PAGE_NUM):
         x1, y1, x2, y2 = REGION
         sc = pag.screenshot(region=(x1, y1, x2-x1, y2-y1))
-        sc.save(fr'outputs/{FILE_NAME}/{page+1}.png')
+        sc.save(fr'outputs/{FILE_NAME}/{page}.png')
         pag.press(SCROLL_DIRECTION)
         time.sleep(0.5)
 
 
 def img_to_pdf():
-    pdf_FileName = fr'outputs/{FILE_NAME}.pdf'
-    img_folder = fr'outputs/{FILE_NAME}/'
-    extension = '.png'
 
-    with open(pdf_FileName, 'wb') as f:
-        f.write(img2pdf.convert([Image.open(
-            img_folder+j).filename for j in os.listdir(img_folder)if j.endswith(extension)]))
+    with open(fr'outputs/{FILE_NAME}.pdf', 'wb') as f:
+        f.write(img2pdf.convert(
+            [Image.open(fr'outputs/{FILE_NAME}/{page}.png').filename for page in range(PAGE_NUM)]))
 
 
 def delete_img():
